@@ -1,0 +1,88 @@
+código criação bd
+
+-- Criação do Banco de Dados (Opcional)
+CREATE DATABASE IF NOT EXISTS SistemaFormularios;
+USE SistemaFormularios;
+
+-- -----------------------------------------------------
+-- Tabela: Funcionario
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Funcionario (
+    id_funcionario INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(100),
+    cargo VARCHAR(50),
+    data_admissao DATE,
+    tipo_perfil VARCHAR(20),
+    ativo TINYINT
+);
+
+-- -----------------------------------------------------
+-- Tabela: Formulario
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Formulario (
+    id_formulario INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150),
+    data_abertura DATETIME,
+    data_fechamento DATETIME,
+    status TINYINT
+);
+
+-- -----------------------------------------------------
+-- Tabela: Pergunta
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Pergunta (
+    id_pergunta INT AUTO_INCREMENT PRIMARY KEY,
+    id_formulario INT,
+    texto_pergunta TEXT,
+    tipo_resposta VARCHAR(30),
+    ordem INT,
+    CONSTRAINT fk_pergunta_formulario FOREIGN KEY (id_formulario) REFERENCES Formulario(id_formulario)
+);
+
+-- -----------------------------------------------------
+-- Tabela: Controle_Acesso
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Controle_Acesso (
+    id_controle INT AUTO_INCREMENT PRIMARY KEY,
+    id_funcionario INT,
+    id_formulario INT,
+    respondeu TINYINT,
+    data_resposta DATETIME,
+    CONSTRAINT fk_acesso_funcionario FOREIGN KEY (id_funcionario) REFERENCES Funcionario(id_funcionario),
+    CONSTRAINT fk_acesso_formulario FOREIGN KEY (id_formulario) REFERENCES Formulario(id_formulario)
+);
+
+-- -----------------------------------------------------
+-- Tabela: Resposta
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Resposta (
+    id_resposta INT AUTO_INCREMENT PRIMARY KEY,
+    id_pergunta INT,
+    id_funcionario INT,
+    conteudo_resposta TEXT,
+    data_envio DATETIME,
+    CONSTRAINT fk_resposta_pergunta FOREIGN KEY (id_pergunta) REFERENCES Pergunta(id_pergunta),
+    CONSTRAINT fk_resposta_funcionario FOREIGN KEY (id_funcionario) REFERENCES Funcionario(id_funcionario)
+);
+
+-- -----------------------------------------------------
+-- Tabela: Relatorio
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Relatorio (
+    id_relatorio INT AUTO_INCREMENT PRIMARY KEY,
+    id_formulario INT,
+    data_geracao DATETIME,
+    dados_consolidados TEXT,
+    CONSTRAINT fk_relatorio_formulario FOREIGN KEY (id_formulario) REFERENCES Formulario(id_formulario)
+);
+
+
+
+
+
+dados gerados para o bd
+
+
+
+
